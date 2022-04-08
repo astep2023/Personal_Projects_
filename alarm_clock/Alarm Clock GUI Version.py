@@ -31,7 +31,7 @@ def add_alarm_display():
         hour = hour_.get()
         minute = minute_.get()
         second = second_.get()
-        alarm = "{} {} {}".format(hour, minute, second)
+        alarm = "({} {} {})".format(hour, minute, second)
         alarms.put(((len(alarms.queue) + 1), alarm))
 
     add_window = Tk()
@@ -39,15 +39,16 @@ def add_alarm_display():
     add_window.geometry('400x300')
     add_window.config(bg='#F2B90C')
 
-    hours_array = [i for i in range(60)]
+    hours_array = [str(i) for i in range(60)]
 
-    # setting hour_ for Integers
     hour_ = StringVar()
     hour_.set(hours_array[0])
     minute_ = StringVar()
     minute_.set(hours_array[0])
     second_ = StringVar()
     second_.set(hours_array[0])
+    def print_selected():
+        print(hour_)
 
     # creating widget
     hour_dropdown = OptionMenu(
@@ -55,6 +56,8 @@ def add_alarm_display():
         hour_,
         *hours_array[:25]
     )
+
+    hour_dropdown.configure(command=lambda: print_selected())
 
     minute_dropdown = OptionMenu(
         add_window,
