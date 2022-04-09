@@ -37,6 +37,15 @@
                         <a class="nav-item nav-link" id="home" href="/">
                             home
                         </a>
+                        {% if user.character %}
+                        <a class="nav-item nav-link" id="character" href="/character">
+                            My Character's
+                        </a>
+                        {% else %} 
+                        <a class="nav-item nav-link" id="character" href="/character">
+                            Make A Character
+                        </a>
+                        {% endif %}
                         <a class="nav-item nav-link" id="logout" href="/logout">
                             logout
                         </a>
@@ -95,6 +104,11 @@
             src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"
+        >
+        </script>
+        <script
+        type="text/javascript"
+        src="{{ url_for('static', filename='index.js') }}"
         >
         </script>
     </body>

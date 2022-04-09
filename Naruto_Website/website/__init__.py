@@ -17,13 +17,13 @@ def create_app():
     app.config["SECRET_KEY"] = "skylar"
 
     db.init_app(app)
-
+    
     from .views import views
     from .auth import auth
 
     app.register_blueprint(views, url_prefix = "/")
     app.register_blueprint(auth, url_prefix = "/")
-    from .models import User, Post, Character
+    from .models import User, Character, Post, Jutsu, jutsus
     create_database(app)
     
     login_manager = LoginManager()

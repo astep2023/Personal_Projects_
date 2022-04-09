@@ -4,11 +4,26 @@ New Post
 {% endblock %} 
 
 {% block content %} 
-    <form method = "POST">
-        <textarea name = "post" id = "post" class="form-control">
-            <div aligh="center">
-                <button type="submit" class="btn btn-primary">Add Post</button>
-            </div>
-        </textarea> 
+    <h1 class="text-center">Posts Made By User: {{user.first_name}}</h1>
+    <ul class="list-group list-group-flush" id="posts">
+        {% for post in user.posts %} 
+            <li class="list-group-item">
+                {{ post.text }}
+                <button type="button" class="close" onClick = "deletePost({{ post.id }})">
+                    <span aria-hidden="true">
+                        &times;
+                    </span>
+                </button>
+            </li>
+        {% endfor %}
+    </ul>
+    <form method="POST">
+        <textarea name="post" id="post" class="form-control"></textarea>
+        <br/>
+        <div class = "text-center">
+            <button type="submit" class="btn btn-primary">
+                Submit Post
+            </button>
+        </div>
     </form>
 {% endblock %}

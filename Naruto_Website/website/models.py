@@ -8,16 +8,32 @@ class Post (db.Model):
     date = db.Column(db.DateTime(timezone = True), default = func.now() )
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
+class Jutsu(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    type = db.Column(db.String(15))
+    description = db.Column(db.String(500))
+
+jutsus = db.Table('jutsus',
+    db.Column('character_id', db.Integer, db.ForeignKey('character.id')),
+    db.Column('jutsu_id', db.Integer, db.ForeignKey('jutsu.id'))
+)
+
 class Character(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    first_name = db.Column(db.String(150))
+    first_name = db.Column(db.String(150), nullable = False)
     last_name = db.Column(db.String(150))
+    chakra = db.Column(db.Integer)
+    chakra_control = db.Column(db.Integer)
+    speed = db.Column(db.Integer)
+    strength = db.Column(db.Integer, nullable = True)
+    character_img = db.Column(db.String(100), nullable = False)
+    jutsus = db.relationship("Jutsu", secondary=jutsus, backref="practitioner")
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String(150), unique = True)
-    password = db.Column(db.String(32))
+    password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
     posts = db.relationship("Post")
     characters = db.relationship("Character")
