@@ -4,6 +4,9 @@ from time import strftime
 from datetime import datetime
 from queue import PriorityQueue
 
+
+
+
 alarms = PriorityQueue()
 alarms.put((1, "Hello"))
 alarms.put((2, "Goodbye"))
@@ -27,7 +30,7 @@ def snooze_alarm():
     alarms.queue[0]
 
 def add_alarm_display():
-    def add_alarm(hour, minute, second):
+    def add_alarm():
         hour = hour_.get()
         minute = minute_.get()
         second = second_.get()
@@ -39,7 +42,7 @@ def add_alarm_display():
     add_window.geometry('400x300')
     add_window.config(bg='#F2B90C')
 
-    hours_array = [str(i) for i in range(60)]
+    hours_array = [str(i) for i in range(1, 60)]
 
     hour_ = StringVar()
     hour_.set(hours_array[0])
@@ -72,7 +75,7 @@ def add_alarm_display():
     )
 
     confirm_add_button = Button(add_window, text = "Add")
-    confirm_add_button.configure(command = lambda: add_alarm(hour_, minute_, second_))
+    confirm_add_button.configure(command = lambda: add_alarm())
     # positioning widget
     hour_dropdown.grid(row = 0, column = 0, padx=10, pady = 10)
     minute_dropdown.grid(row = 0, column = 1)
@@ -81,18 +84,14 @@ def add_alarm_display():
 
 
 current_time_label = Label(clock_window, font = ('calibri', 20, 'bold'),
-            background = '#4180c4', foreground = 'white', text = "Current Time", justify = LEFT, width = 10
-            ).grid(row = 0, column = 0, padx = 10, ipadx = 10)
+            background = '#4180c4', foreground = 'white', text = "Current Time", justify = LEFT, width = 10).grid(row = 0, column = 0, padx = 10, ipadx = 10)
 
-current_time = Label(clock_window, borderwidth= 40, font = ('calibri', 20, 'bold'),
-            foreground = 'darkred', relief = "sunken", background = "darkgrey", justify = LEFT)
+current_time = Label(clock_window, borderwidth= 40, font = ('calibri', 20, 'bold'), foreground = 'darkred', relief = "sunken", background = "darkgrey", justify = LEFT)
 
 next_alarm_label = Label(clock_window, font = ('calibri', 20, 'bold'),
-            background = '#4180c4', foreground = 'white', text = "Next Alarm", width = 10
-            ).grid(row = 2, column = 0, padx = 10, ipadx = 10)
+            background = '#4180c4', foreground = 'white', text = "Next Alarm", width = 10).grid(row = 2, column = 0, padx = 10, ipadx = 10)
 
-next_alarm = Label(clock_window, borderwidth = 2, font = ('calibri', 20, 'bold'),
-            foreground = 'darkred', relief = "sunken", background = "darkgrey")
+next_alarm = Label(clock_window, borderwidth = 2, font = ('calibri', 20, 'bold'), foreground = 'darkred', relief = "sunken", background = "darkgrey")
 
 add_button = Button(clock_window, text = "Add")
 add_button.configure(command = lambda: add_alarm_display())
@@ -115,7 +114,7 @@ snooze_button.place(x = 250, y = 60)
 off_button.place(x = 250, y = 80)
 
 def time():
-    string = strftime('%H:%M:%S')
+    string = strftime("%H:%M:%S")
     front = alarms.queue[0][1]
     current_time.config(text = string)
     current_time.after(1000, time)
