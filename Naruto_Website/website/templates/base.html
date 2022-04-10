@@ -34,7 +34,7 @@
             <div class="collapse nav-collapse" id="navbar">
                 <div class="navbar-nav">
                     {% if user.is_authenticated %}
-                        <a class="nav-item nav-link" id="home" href="/">
+                        <a class="nav-item nav-link" id="home" href="/home">
                             home
                         </a>
                         {% if user.character %}
@@ -42,7 +42,7 @@
                             My Character's
                         </a>
                         {% else %} 
-                        <a class="nav-item nav-link" id="character" href="/character">
+                        <a class="nav-item nav-link" id="new_character" href="/new_character">
                             Make A Character
                         </a>
                         {% endif %}

@@ -26,22 +26,27 @@ def new_post():
 
     return render_template("new_post.html", user = current_user)
 
-@views.route("/character", methods=["GET", "POST"])
-def character():
+@views.route("/new_character", methods=["GET", "POST"])
+def new_character():
     if request.method == "POST":
         first_name = request.form.get("first_name")
         last_name = request.form.get("last_name")
         character_img = request.form.get("character_img")
+        import random
+        chakra = random.randrange(25, 101)
+        chakra_control = random.randrange(25, 101)
+        strength = random.randrange(25, 101)
+        speed = random.randrange(25, 101)
         if len(first_name) < 2:
             flash("Name is too short.", category = "error")
         elif character_img == "" or character_img == None:
             flash("Please put in a character image.", category = "error")
         else:
             if last_name:
-                new_character = Character(first_name = first_name, last_name = last_name, character_img = character_img)
+                new_character = Character(first_name = first_name, last_name = last_name, chakra = chakra, chakra_control = chakra_control, speed = speed, strength = strength, character_img = character_img)
                 db.session.add(new_character)
                 db.session.commit()
-    return render_template("character.html", user = current_user)
+    return render_template("new_character.html", user = current_user)
 
 
 @views.route("/delete-post", methods=["POST"])
