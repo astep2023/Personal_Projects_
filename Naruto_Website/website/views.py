@@ -31,19 +31,24 @@ def new_character():
     if request.method == "POST":
         first_name = request.form.get("first_name")
         last_name = request.form.get("last_name")
-        character_img = request.form.get("character_img")
+        character_img = "asdkasnda"#request.form.get("character_img")
         import random
         chakra = random.randrange(25, 101)
         chakra_control = random.randrange(25, 101)
         strength = random.randrange(25, 101)
         speed = random.randrange(25, 101)
+
         if len(first_name) < 2:
             flash("Name is too short.", category = "error")
         elif character_img == "" or character_img == None:
             flash("Please put in a character image.", category = "error")
         else:
             if last_name:
-                new_character = Character(first_name = first_name, last_name = last_name, chakra = chakra, chakra_control = chakra_control, speed = speed, strength = strength, character_img = character_img)
+                new_character = Character(first_name = first_name, last_name = last_name, chakra = chakra, chakra_control = chakra_control, speed = speed, strength = strength, character_img = character_img, user_id = current_user.id)
+                db.session.add(new_character)
+                db.session.commit()
+            else:
+                new_character = Character(first_name = first_name, chakra = chakra, chakra_control = chakra_control, speed = speed, strength = strength, character_img = character_img, user_id = current_user.id)
                 db.session.add(new_character)
                 db.session.commit()
     return render_template("new_character.html", user = current_user)
@@ -59,3 +64,18 @@ def delete_post():
             db.session.delete(post)
             db.session.commit()
     return jsonify({})
+
+@views.route("/delete-character", methods=["POST"])
+def delete_character():
+    character = json.loads(request.data)
+    character_id = character["characterId"]
+    character = Character.query.get(character_id)
+    if character:
+        if character.user_id == current_user.id:
+            db.session.delete(character)
+            db.session.commit()
+    return jsonify({})
+
+@views.route("/character")
+def character():
+    return render_template("character.html", user = current_user)
